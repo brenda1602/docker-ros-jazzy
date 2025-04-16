@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ros-jazzy:
+    image: ${IMAGE_NAME}:latest
+    privileged: true
+    network_mode: host
+    container_name: ubuntu-ros-top-side-container
+
+    environment: &env_vars
+        - LC_ALL=en_US.utf8
+        - TERM
+        - DEBUG=${DEBUG}
+        - DISPLAY=${DISPLAY}
+        - XAUTHORITY=${XAUTH}
+        - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
+    volumes:
+      - /dev:/dev
+      - /dev/dri:/dev/dri
+      - ${XSOCK}:${XSOCK}:rw
+      - ${XAUTH}:${XAUTH}:rw
+      - ${HOME}/.ssh:/home/${USERNAME}/.ssh
+    user: ${USERNAME:-admin}
