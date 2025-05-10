@@ -67,6 +67,24 @@ RUN rosdep update && \
     sudo apt-get update
 USER root
 
+# Install curl and bash-completion
+RUN apt-get update && \
+    apt-get install -y bash bash-completion curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download Docker CLI bash completion script
+RUN mkdir -p /etc/bash_completion.d && \
+    curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/bash/docker \
+    -o /etc/bash_completion.d/docker
+
+# Set bash as the default shell and source completion in .bashrc
+RUN echo "source /etc/bash_completion" >> /root/.bashrc && \
+    echo "source /etc/bash_compleGtion.d/docker" >> /root/.bashrc
+
+RUN echo "source /etc/bash_completion" >> /home/$USERNAME/.bashrc && \
+    echo "source /etc/bash_completion.d/docker" >> /home/$USERNAME/.bashrc && \
+    chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
+
 # setup entrypoint
 COPY rootfs/home/.bashrc /home/$USERNAME/.bashrc
 COPY rootfs/entrypoint.bash /entrypoint.bash
