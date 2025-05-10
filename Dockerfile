@@ -54,8 +54,8 @@ RUN useradd -m $USERNAME && \
     usermod -aG video $USERNAME && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
-    usermod  --uid id -u $USERNAME && \
-    groupmod --gid id -g $USERNAME && \
+    usermod  --uid 1001 $USERNAME && \
+    groupmod --gid 1001 $USERNAME && \
     ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
     echo Etc/UTC > /etc/timezone
 
